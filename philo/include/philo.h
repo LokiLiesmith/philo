@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 23:16:50 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/23 10:01:31 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/23 12:07:56 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,19 @@
 # include <stdlib.h>
 # include <pthread.h>
 
+# define STR_USAGE ""
+
 struct	s_philo;
+
+typedef enum e_input_err
+{
+	ERR_NONE = 0,
+	ERR_NUMBER_OF_PHILOS,
+	ERR_TIME_TO_DIE,
+	ERR_TIME_TO_EAT,
+	ERR_TIME_TO_SLEEP,
+	ERR_MUST_EATS,
+}	t_input_err;
 
 typedef struct s_table
 {
@@ -49,6 +61,9 @@ long	ft_atol(const char *s);
 int		is_valid_int_string(char *s);
 int		is_in_int_range(char *s);
 int		is_valid_int(char *s);
-int		ft_validate_input(char **av, int ac);
+int		ft_validate_input(char **av);
+
+// errors.c
+char	*ft_input_error(t_input_err err);
 
 #endif

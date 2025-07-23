@@ -3,7 +3,7 @@ CC      := cc
 CFLAGS  := -Wall -Wextra -Werror -I include 
 
 # Source & objects
-SRC := src/main.c src/utils.c src/parsing.c
+SRC := src/main.c src/utils.c src/parsing.c src/errors.c
 NAME  := philo
 OBJDIR  := obj
 OBJ := $(SRC:src/%.c=$(OBJDIR)/%.o)

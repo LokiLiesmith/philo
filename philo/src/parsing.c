@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 09:55:44 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/23 10:04:43 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/23 12:08:16 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,23 @@ int	is_valid_int(char *s)
 	return (is_valid_int_string(s) && is_in_int_range(s));
 }
 
-//check if they are numbers only if no 6th arg then set to -1
-int	ft_validate_input(char **av, int ac)
+//check if they are numbers only if no 6th arg then set 6th to -1
+int	ft_validate_input(char **av)
 {
 	int	i;
-	(void)ac;
 	
 	i = 1;
 	while (is_valid_int(av[i]) && av[i])
-	{
-		printf("av[%d] is valid.\n", i);
 		i++;
+	if (i <= 5)
+	{
+		printf("Error: %s", ft_input_error(i));
+		return (1);
+	}
+	else if (i == 6)
+	{
+		printf("Error: %s", ft_input_error(i));
+		return (1);
 	}
 	return (0);
 }

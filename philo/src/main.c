@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 20:36:09 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/23 10:01:30 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/23 12:08:03 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ int	main(int ac, char **av)
 {
 	t_table	table;
 
-	if (ac == 5 || ac == 6)
-	{
-		ft_validate_input(av, ac);
-		init_table(&table, av);
-		create_philos(&table);
-		// start_dinner(table);
-	}
+	if (ac != 5 && ac != 6)
+		return (write(2, "Wrong argument count\n", 21), 1);
+	if(ft_validate_input(av) == 1)
+		return (1);
+	init_table(&table, av);
+	create_philos(&table);
+	// start_dinner(table);
 	// end_routine
 	return (0);
 }
