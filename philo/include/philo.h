@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 23:16:50 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/22 20:42:38 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/23 10:01:31 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,36 @@
 # include <stdlib.h>
 # include <pthread.h>
 
-struct	s_philos;
+struct	s_philo;
 
 typedef struct s_table
 {
-	time_t			start_of_time;
-	unsigned int	number_of_philosophers;
-	time_t			time_to_die;
-	time_t			time_to_eat;
-	time_t			time_to_sleep;
+	long			start_of_time;
+	unsigned int	number_of_philos;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
 	unsigned int	must_eats;
 	pthread_mutex_t	*forks;
-	struct s_philos	**philos;
+	struct s_philo	**philos;
 }	t_table;
 
-typedef struct s_philos
+typedef struct s_philo
 {
 	pthread_t		thread;
 	unsigned int	id;
 	unsigned int	fork[2];
+	struct s_table	*table;
+}	t_philo;
 
-}	t_philos;
+///  util.c
+int		ft_atoi(const char *str);
+long	ft_atol(const char *s);
+
+///  parsing.c ///
+int		is_valid_int_string(char *s);
+int		is_in_int_range(char *s);
+int		is_valid_int(char *s);
+int		ft_validate_input(char **av, int ac);
 
 #endif
-
-//number_of_philosophers 
-//time_to_die
-//time_to_eat
-//time_to_sleep 
-//[number_of_times_each_philosopher_must_eat]
