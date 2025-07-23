@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 23:16:50 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/23 12:07:56 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/23 12:40:25 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ long	ft_atol(const char *s);
 int		is_valid_int_string(char *s);
 int		is_in_int_range(char *s);
 int		is_valid_int(char *s);
-int		ft_validate_input(char **av);
+int		ft_validate_input(char **av, int ac);
 
 // errors.c
 char	*ft_input_error(t_input_err err);
