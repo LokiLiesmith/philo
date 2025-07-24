@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 23:16:50 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/23 12:40:25 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/24 22:49:09 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 # include <stdlib.h>
 # include <pthread.h>
 
-# define STR_USAGE ""
+# define STR_USAGE "Invalid Input\n\
+Correct usage: ./philo <number_of_philosophers> <time_to_die> <time_to_eat> \
+<time_to_sleep> [number_of_times_each_philosopher_must_eat]"
 
 struct	s_philo;
 
@@ -47,11 +49,19 @@ typedef struct s_table
 
 typedef struct s_philo
 {
+	int				id;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
+	int				must_eats;
 	pthread_t		thread;
-	unsigned int	id;
-	unsigned int	fork[2];
-	struct s_table	*table;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+	t_table			table;
 }	t_philo;
+
+
+
 
 ///  util.c
 int		ft_atoi(const char *str);
@@ -64,6 +74,8 @@ int		is_valid_int(char *s);
 int		ft_validate_input(char **av, int ac);
 
 // errors.c
-char	*ft_input_error(t_input_err err);
+// char	*ft_input_error(t_input_err err);
+void	ft_error_msg(char *msg);
+
 
 #endif

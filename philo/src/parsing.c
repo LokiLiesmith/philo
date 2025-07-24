@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 09:55:44 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/23 13:01:07 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/24 22:57:18 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,20 @@ int	is_valid_int(char *s)
 	return (is_valid_int_string(s) && is_in_int_range(s));
 }
 
-//check if they are numbers only if no 6th arg then set 6th to -1
 int	ft_validate_input(char **av, int ac)
 {
-	int	i;
-
-	i = 1;
-	while (av[i] && is_valid_int(av[i]))
-		i++;
-	if (i < ac)
+	if (!is_valid_int(av[1]))
+		ft_error_msg("Invalid number of Philosophers.", ERR_NUMBER_OF_PHILOS);
+	if (!is_valid_int(av[2]))
+		ft_error_msg("Invalid input: Time to die must be a positive number.");
+	if (!is_valid_int(av[3]))
+		ft_error_msg("Invalid input: Time to eat must be a positive number.");
+	if (!is_valid_int(av[4]))
+		ft_error_msg("Invalid input: Time to sleep must be a positive number.");
+	if (ac == 6)
 	{
-		printf("Error: %s", ft_input_error(i));
-		return (1);
+		if (!is_valid_int(av[5]))
+			ft_error_msg("Invalid number of times each philosopher must eat.");
 	}
-	return (0);
+	return (ERR_NONE);
 }
