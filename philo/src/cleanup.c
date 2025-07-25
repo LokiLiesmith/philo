@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/23 11:38:35 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/25 23:20:06 by mrazem           ###   ########.fr       */
+/*   Created: 2025/07/25 23:08:46 by mrazem            #+#    #+#             */
+/*   Updated: 2025/07/25 23:19:59 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <philo.h>
 
-void	ft_error_msg(char *msg, int err)
+void	free_philos(t_table *table, int count)
 {
-	printf("%s\n", msg);
-	exit(err);
+	int	i;
+
+	i = 0;
+	while (i < count)
+	{
+		if (table->philos[i])
+			free(table->philos[i]);
+		i++;
+	}
 }

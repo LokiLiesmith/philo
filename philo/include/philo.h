@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 23:16:50 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/24 22:49:09 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/25 23:20:05 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ Correct usage: ./philo <number_of_philosophers> <time_to_die> <time_to_eat> \
 
 struct	s_philo;
 
+enum e_fork_side
+{
+	LEFT = 0,
+	RIGHT = 1,
+};
+
 typedef enum e_input_err
 {
 	ERR_NONE = 0,
@@ -33,6 +39,9 @@ typedef enum e_input_err
 	ERR_TIME_TO_EAT,
 	ERR_TIME_TO_SLEEP,
 	ERR_MUST_EATS,
+	ERR_USAGE,
+	ERR_FORK_MALLOC,
+	ERR_PHILOS_CREATION,
 }	t_input_err;
 
 typedef struct s_table
@@ -49,15 +58,11 @@ typedef struct s_table
 
 typedef struct s_philo
 {
-	int				id;
-	long			time_to_die;
-	long			time_to_eat;
-	long			time_to_sleep;
-	int				must_eats;
+	int				id; //index + 1
+	long			last_meal_time;
 	pthread_t		thread;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
-	t_table			table;
+	unsigned int	forks[2];
+	t_table			*table;
 }	t_philo;
 
 
@@ -67,6 +72,12 @@ typedef struct s_philo
 int		ft_atoi(const char *str);
 long	ft_atol(const char *s);
 
+
+// init.c
+int		init_table(t_table	*table, char **av, int ac);
+int		set_forks(t_table *table);
+int		create_philos(t_table *table);
+
 ///  parsing.c ///
 int		is_valid_int_string(char *s);
 int		is_in_int_range(char *s);
@@ -75,7 +86,10 @@ int		ft_validate_input(char **av, int ac);
 
 // errors.c
 // char	*ft_input_error(t_input_err err);
-void	ft_error_msg(char *msg);
+void	ft_error_msg(char *msg, int err_no);
 
+
+// cleanup.c
+void	free_philos(t_table *table, int count);
 
 #endif
