@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 23:16:50 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/26 19:44:13 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/26 20:09:50 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@
 # define STR_USAGE "Invalid Input\n\
 Correct usage: ./philo <number_of_philosophers> <time_to_die> <time_to_eat> \
 <time_to_sleep> [number_of_times_each_philosopher_must_eat]"
+# define STR_ERR_TO_DIE "Invalid input: Time to die must be a positive number."
+# define STR_ERR_TO_EAT "Invalid input: Time to eat must be a positive number."
+# define STR_ERR_TO_SLEEP "Invalid input: Time to sleep must be a \
+positive number."
+# define STR_ERR_MUST_EATS "Invalid number of times each philosopher must eat."
 
 struct	s_philo;
 
@@ -68,7 +73,7 @@ typedef struct s_philo
 
 
 
-///  util.c
+///  utils.c
 long	ft_atol(const char *s);
 long	get_time_in_ms(void);
 

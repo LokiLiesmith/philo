@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 09:55:44 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/26 19:59:27 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/26 20:10:11 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	is_valid_int_string(char *s)
 	return (1);
 }
 
-//CHECK IF IN INT MAX-MIN RANGE
+//CHECK IF IN 0 - INT_MAX RANGE
 int	is_in_int_range(char *s)
 {
 	long	n;
@@ -56,15 +56,15 @@ int	ft_validate_input(char **av, int ac)
 	if (!is_valid_int(av[1]) || ft_atol(av[1]) > 200)
 		ft_error_msg("Invalid number of Philosophers.", ERR_NUMBER_OF_PHILOS);
 	if (!is_valid_int(av[2]))
-		ft_error_msg("Invalid input: Time to die must be a positive number.", ERR_TIME_TO_DIE);
+		ft_error_msg(STR_ERR_TO_DIE, ERR_TIME_TO_DIE);
 	if (!is_valid_int(av[3]))
-		ft_error_msg("Invalid input: Time to eat must be a positive number.", ERR_TIME_TO_EAT);
+		ft_error_msg(STR_ERR_TO_EAT, ERR_TIME_TO_EAT);
 	if (!is_valid_int(av[4]))
-		ft_error_msg("Invalid input: Time to sleep must be a positive number.", ERR_TIME_TO_SLEEP);
+		ft_error_msg(STR_ERR_TO_SLEEP, ERR_TIME_TO_SLEEP);
 	if (ac == 6)
 	{
 		if (!is_valid_int(av[5]))
-			ft_error_msg("Invalid number of times each philosopher must eat.", ERR_MUST_EATS);
+			ft_error_msg(STR_ERR_MUST_EATS, ERR_MUST_EATS);
 	}
 	return (ERR_NONE);
 }
