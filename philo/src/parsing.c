@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 09:55:44 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/25 21:14:48 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/26 19:59:27 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	is_in_int_range(char *s)
 	long	n;
 
 	n = ft_atol(s);
-	return (n >= -2147483648 && n <= 2147483647);
+	return (n > 0 && n <= 2147483647);
 }
 
 int	is_valid_int(char *s)
@@ -53,7 +53,7 @@ int	is_valid_int(char *s)
 
 int	ft_validate_input(char **av, int ac)
 {
-	if (!is_valid_int(av[1]))
+	if (!is_valid_int(av[1]) || ft_atol(av[1]) > 200)
 		ft_error_msg("Invalid number of Philosophers.", ERR_NUMBER_OF_PHILOS);
 	if (!is_valid_int(av[2]))
 		ft_error_msg("Invalid input: Time to die must be a positive number.", ERR_TIME_TO_DIE);

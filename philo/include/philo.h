@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 23:16:50 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/25 23:20:05 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/26 19:44:13 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,9 @@ typedef struct s_philo
 
 
 ///  util.c
-int		ft_atoi(const char *str);
 long	ft_atol(const char *s);
+long	get_time_in_ms(void);
+
 
 
 // init.c
@@ -91,5 +92,7 @@ void	ft_error_msg(char *msg, int err_no);
 
 // cleanup.c
 void	free_philos(t_table *table, int count);
+void	destroy_mutexes(t_table *table, int count);
+void	free_table(t_table *table);
 
 #endif
