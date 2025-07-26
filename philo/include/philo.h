@@ -58,7 +58,7 @@ typedef struct s_table
 
 typedef struct s_philo
 {
-	int				id; //index + 1
+	unsigned int	id; //index + 1
 	long			last_meal_time;
 	pthread_t		thread;
 	unsigned int	forks[2];

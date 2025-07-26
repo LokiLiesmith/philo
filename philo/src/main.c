@@ -25,6 +25,9 @@ int	create_philos(t_table *table)
 {
 	int		i;
 
+	table->philos = malloc(sizeof(t_philo *) * table->number_of_philos);
+	if (!table->philos)
+		return (1);
 	i = 0;
 	while ((unsigned int)i < table->number_of_philos)
 	{
@@ -74,17 +77,27 @@ int	init_table(t_table	*table, char **av, int ac)
 int	main(int ac, char **av)
 {
 	t_table	table;
-	
-	(void)table;
-	(void)av;
 
 	if (ac == 5 || ac == 6)
 	{
 		ft_validate_input(av, ac);
 		init_table(&table, av, ac);
-		// create_philos(&table);
 		// start_dinner(table);
 		// end_routine
+		//////////////////////////// CHECKS/////////////////////////////////
+
+		int i = 0;
+		printf("Philos: %d\n", table.number_of_philos);
+		while ( i < (int)table.number_of_philos)
+		{
+			t_philo *philo = table.philos[i];
+			printf("Philo[id]: %d\n", philo->id);
+			printf("Left Fork[id]: %d\n", philo->forks[LEFT]);
+			printf("Right Fork[id]: %d\n", philo->forks[RIGHT]);
+			i++;
+		}
+
+		//////////////////////////////////////////////////////////////////
 	}
 	else
 		ft_error_msg(STR_USAGE, ERR_USAGE);
