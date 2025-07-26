@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 20:36:09 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/26 19:47:09 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/26 22:00:36 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,23 @@ int	main(int ac, char **av)
 	{
 		ft_validate_input(av, ac);
 		init_table(&table, av, ac);
-		// start_dinner(table);
+		start_dinner(&table);
+		sleep(1);
 		// end_routine
-		//////////////////////////// CHECKS/////////////////////////////////
+		// //////////////////////////// CHECKS/////////////////////////////////
 
-		int i = 0;
-		printf("Philos: %d\n", table.number_of_philos);
-		while ( i < (int)table.number_of_philos)
-		{
-			t_philo *philo = table.philos[i];
-			printf("Philo[id]: %d\n", philo->id);
-			printf("Left Fork[id]: %d\n", philo->forks[LEFT]);
-			printf("Right Fork[id]: %d\n", philo->forks[RIGHT]);
-			i++;
-		}
-		printf("Start of time: %ld\n", table.start_of_time = get_time_in_ms());
-
+		// int i = 0;
+		// printf("Philos: %d\n", table.number_of_philos);
+		// while ( i < (int)table.number_of_philos)
+		// {
+		// 	t_philo *philo = table.philos[i];
+		// 	printf("Philo[id]: %d\n", philo->id);
+		// 	printf("Left Fork[id]: %d\n", philo->forks[LEFT]);
+		// 	printf("Right Fork[id]: %d\n", philo->forks[RIGHT]);
+		// 	i++;
+		// }
+		// printf("Start of time: %ld\n", table.start_of_time = get_time_in_ms());
+// 
 		//////////////////////////////////////////////////////////////////
 	}
 	else
@@ -43,3 +44,35 @@ int	main(int ac, char **av)
 	return (0);
 }
 
+void	*routine(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	printf("Thread created:[id:%d]\n", philo->id);
+	printf("Left Fork[id]: %d\n", philo->forks[LEFT]);
+	printf("Right Fork[id]: %d\n", philo->forks[RIGHT]);
+	usleep(5000);
+	philo->last_meal_time = get_time_in_ms() - philo->table->start_of_time;
+	printf("Last meal time: %ldms\n", philo->last_meal_time);
+	return (NULL);
+}
+
+int	start_dinner(t_table *table)
+{
+	int		i;
+
+	i = 0;
+	table->start_of_time = get_time_in_ms();
+	while (i < (int)table->number_of_philos)
+	{
+		if (pthread_create(&table->philos[i]->thread, NULL, &routine,
+				(void *)table->philos[i]) != 0)
+		{
+			free_table(table);
+			ft_error_msg("Failed to create thread", 1);
+		}
+		i++;
+	}
+	return (0);
+}

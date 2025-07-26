@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 23:16:50 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/26 20:09:50 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/26 21:45:42 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ typedef struct s_philo
 }	t_philo;
 
 
+int		start_dinner(t_table *table);
+void	*routine(void *arg);
 
 
 ///  utils.c
