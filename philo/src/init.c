@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 19:30:34 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/26 19:33:13 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/28 00:46:48 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	set_forks(t_table *table)
 	return (0);
 }
 
-int	init_table(t_table	*table, char **av, int ac)
+int	init_vars(t_table *table, char**av, int ac)
 {
 	table->number_of_philos = ft_atol(av[1]);
 	table->time_to_die = ft_atol(av[2]);
@@ -71,13 +71,36 @@ int	init_table(t_table	*table, char **av, int ac)
 		table->must_eats = ft_atol(av[5]);
 	else
 		table->must_eats = -1;
-	table->start_of_time = 0;
+	return (0);
+}
+
+int	print_and_start_locks(t_table *table)
+{
+	if (pthread_mutex_init(&table->start_lock, NULL) != 0)
+		ft_error_msg("Start lock mutex init failed", 1);
+	if (pthread_mutex_init(&table->print_lock, NULL) != 0)
+	{
+		pthread_mutex_destroy(&table->start_lock);
+		ft_error_msg("Print lock mutex init failed", 1);
+	}
+	table->start_flag = 0;
+	return (0);
+}
+
+int	init_table(t_table	*table, char **av, int ac)
+{
+	init_vars(table, av, ac);
+	print_and_start_locks(table);
 	if (set_forks(table))
+	{
+		free_table(table);
 		ft_error_msg("FORK MALLOC FAILED", ERR_FORK_MALLOC);
+	}
 	if (create_philos(table))
 	{
 		free_table(table);
 		ft_error_msg("Failed at creating philos.", ERR_PHILOS_CREATION);
 	}
+	printf("Init Complete.\n");
 	return (0);
 }

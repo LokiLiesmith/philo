@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 23:16:50 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/26 21:45:42 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/28 00:59:21 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ typedef struct s_table
 	unsigned int	must_eats;
 	pthread_mutex_t	*forks;
 	struct s_philo	**philos;
+	pthread_mutex_t	start_lock;
+	int				start_flag;
+	pthread_mutex_t	print_lock;
 }	t_table;
 
 typedef struct s_philo
@@ -68,6 +71,7 @@ typedef struct s_philo
 	pthread_t		thread;
 	unsigned int	forks[2];
 	t_table			*table;
+	long			meal_count;
 }	t_philo;
 
 
@@ -78,11 +82,11 @@ void	*routine(void *arg);
 ///  utils.c
 long	ft_atol(const char *s);
 long	get_time_in_ms(void);
-
-
+void	log_state(t_philo *philo, char *msg);
 
 // init.c
 int		init_table(t_table	*table, char **av, int ac);
+int		init_vars(t_table *table, char**av, int ac);
 int		set_forks(t_table *table);
 int		create_philos(t_table *table);
 
