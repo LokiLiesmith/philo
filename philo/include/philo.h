@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 23:16:50 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/28 00:59:21 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/28 23:59:59 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,15 @@ typedef enum e_input_err
 	ERR_USAGE,
 	ERR_FORK_MALLOC,
 	ERR_PHILOS_CREATION,
+	ERR_LOCKS,
 }	t_input_err;
+
+typedef struct s_lock_inits
+{
+	int				start_lock_init;
+	int				print_lock_init;
+	int				sim_end_lock_init;
+}	t_lock_inits;
 
 typedef struct s_table
 {
@@ -62,6 +70,9 @@ typedef struct s_table
 	pthread_mutex_t	start_lock;
 	int				start_flag;
 	pthread_mutex_t	print_lock;
+	int				simulation_ended;
+	pthread_mutex_t	sim_end_lock;
+	t_lock_inits	lock_inits;
 }	t_table;
 
 typedef struct s_philo
@@ -76,8 +87,6 @@ typedef struct s_philo
 
 
 int		start_dinner(t_table *table);
-void	*routine(void *arg);
-
 
 ///  utils.c
 long	ft_atol(const char *s);
@@ -100,10 +109,15 @@ int		ft_validate_input(char **av, int ac);
 // char	*ft_input_error(t_input_err err);
 void	ft_error_msg(char *msg, int err_no);
 
+//routine.c
+void	*routine(void *arg);
 
 // cleanup.c
 void	free_philos(t_table *table, int count);
 void	destroy_mutexes(t_table *table, int count);
 void	free_table(t_table *table);
+void	destroy_locks(t_table *table);
+int		check_lock_inits(t_lock_inits *lock_inits);
+
 
 #endif

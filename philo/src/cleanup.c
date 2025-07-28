@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 23:08:46 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/28 00:34:54 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/28 23:57:58 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	free_table(t_table *table)
 	int	i;
 
 	i = 0;
-	pthread_mutex_destroy(&table->print_lock);
-	pthread_mutex_destroy(&table->start_lock);
+	if (table)
+		destroy_locks(table);
 	if (table->forks)
 	{
 		destroy_mutexes(table, table->number_of_philos);

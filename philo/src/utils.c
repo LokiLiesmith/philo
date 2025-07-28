@@ -6,16 +6,12 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 21:42:30 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/28 01:04:03 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/28 22:46:57 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// static int	ft_isspace(int c)
-// {
-// 	return ((c >= 9 && c <= 13) || c == 32);
-// }
 long	ft_atol(const char *s)
 {
 	long	result;

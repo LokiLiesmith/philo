@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 19:30:34 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/28 00:46:48 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/28 23:59:53 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,41 @@ int	init_vars(t_table *table, char**av, int ac)
 	return (0);
 }
 
-int	print_and_start_locks(t_table *table)
+int	check_lock_inits(t_lock_inits *lock_inits)
 {
-	if (pthread_mutex_init(&table->start_lock, NULL) != 0)
-		ft_error_msg("Start lock mutex init failed", 1);
-	if (pthread_mutex_init(&table->print_lock, NULL) != 0)
-	{
+	if (lock_inits->print_lock_init == 0)
+		return (1);
+	if (lock_inits->start_lock_init == 0)
+		return (1);
+	if (lock_inits->sim_end_lock_init == 0)
+		return (1);
+	return (0);
+}
+
+void	destroy_locks(t_table *table)
+{
+	if (table->lock_inits.print_lock_init)
+		pthread_mutex_destroy(&table->print_lock);
+	if (table->lock_inits.start_lock_init)
 		pthread_mutex_destroy(&table->start_lock);
-		ft_error_msg("Print lock mutex init failed", 1);
-	}
+	if (table->lock_inits.sim_end_lock_init)
+		pthread_mutex_destroy(&table->sim_end_lock);
+}
+
+int	init_locks(t_table *table)
+{
+	if (pthread_mutex_init(&table->start_lock, NULL) == 0)
+		table->lock_inits.start_lock_init = 1;
+	if (pthread_mutex_init(&table->print_lock, NULL) == 0)
+		table->lock_inits.print_lock_init = 1;
+	if (pthread_mutex_init(&table->sim_end_lock, NULL) == 0)
+		table->lock_inits.sim_end_lock_init = 1;
+	if (check_lock_inits(&table->lock_inits))
+		return (1);
+	printf("\n\n////// STARTLOCK:%d\n", table->lock_inits.start_lock_init);
+	printf("\n\n////// PRINTLOCK:%d\n", table->lock_inits.print_lock_init);
+	printf("\n\n////// SIMENDLOCK:%d\n", table->lock_inits.sim_end_lock_init);
+	table->simulation_ended = 0;
 	table->start_flag = 0;
 	return (0);
 }
@@ -90,7 +116,11 @@ int	print_and_start_locks(t_table *table)
 int	init_table(t_table	*table, char **av, int ac)
 {
 	init_vars(table, av, ac);
-	print_and_start_locks(table);
+	if (init_locks(table))
+	{
+		free_table(table);	
+		ft_error_msg("Locks failed", ERR_LOCKS);
+	}
 	if (set_forks(table))
 	{
 		free_table(table);
