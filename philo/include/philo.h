@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 23:16:50 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/29 22:57:45 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/29 23:58:55 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ int		release_forks(t_philo *philo);
 //sync.c
 int		has_sim_ended(t_table *table);
 void	wait_for_start(t_table *table);
+void	wait_for_threads(t_table *table);
+
 
 
 //monitor.c

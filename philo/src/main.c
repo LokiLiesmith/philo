@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 20:36:09 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/29 22:57:33 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/30 00:00:11 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int ac, char **av)
 		ft_validate_input(av, ac);
 		init_table(&table, av, ac);
 		start_dinner(&table);
-		sleep(1);
+		wait_for_threads(&table);
 		// end_routine
 		// //////////////////////////// CHECKS/////////////////////////////////
 
@@ -42,6 +42,18 @@ int	main(int ac, char **av)
 	else
 		ft_error_msg(STR_USAGE, ERR_USAGE);
 	return (0);
+}
+
+void	wait_for_threads(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < (int)table->number_of_philos)
+	{
+		pthread_join(table->philos[i]->thread, NULL);
+		i++;
+	}
 }
 
 int	start_dinner(t_table *table)
