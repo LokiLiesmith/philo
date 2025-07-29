@@ -12,6 +12,26 @@
 
 #include "philo.h"
 
+int	safe_lock(pthread_mutex_t *mutex, t_table *table)
+{
+	pthread_mutex_lock(mutex);
+	if(!has_sim_ended(table))
+	{
+		return (0);
+	}
+	return (1);
+}
+int	safe_unlock(pthread_mutex_t *mutex, t_table *table)
+{
+	if(!has_sim_ended(table))
+	{
+		pthread_mutex_unlock(mutex);
+		return (0);
+	}
+	return (1);
+}
+
+
 static void	take_forks(t_philo *philo)
 {
 	if (philo->id == philo->table->number_of_philos)
@@ -34,17 +54,23 @@ static void	release_forks(t_philo *philo)
 
 static void	eat(t_philo *philo)
 {
-	log_state(philo, "is eating");
-	philo->last_meal_time = get_time_in_ms();
-	if (philo->meal_count < 0)
-		philo->meal_count++;
+	if(!has_sim_ended(philo->table))
+	{
+		log_state(philo, "is eating");
+		philo->last_meal_time = get_time_in_ms();
+		if (philo->meal_count < 0)
+			philo->meal_count++;
+	}
 }
 
 void	sleep_and_think(t_philo *philo)
 {
-	log_state(philo, "is sleeping");
-	usleep(philo->table->time_to_sleep * 1000);
-	log_state(philo, "is thinking");
+	if(!has_sim_ended(philo->table))
+	{
+		log_state(philo, "is sleeping");
+		usleep(philo->table->time_to_sleep * 1000);
+		log_state(philo, "is thinking");
+	}
 }
 
 void	*routine(void *arg)

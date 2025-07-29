@@ -21,10 +21,11 @@ void *monitor_routine(void *arg)
 	wait_for_start(table);
 	while(!has_sim_ended(table))
 	{
-		usleep(500);
+		usleep(500000);
 		pthread_mutex_lock(&table->sim_end_lock);
 		table->simulation_ended = 1;
 		pthread_mutex_unlock(&table->sim_end_lock);
+		printf("GAMEOVER\n");
 	}
 	return (NULL);
 }
