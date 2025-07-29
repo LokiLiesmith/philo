@@ -12,48 +12,27 @@
 
 #include "philo.h"
 
-void static	wait_for_start(t_philo *philo)
-{
-	while (420)
-	{
-		pthread_mutex_lock(&philo->table->start_lock);
-		if (philo->table->start_flag)
-		{
-			pthread_mutex_unlock(&philo->table->start_lock);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->table->start_lock);
-		usleep(100);
-	}
-}
-
-void static	take_forks(t_philo *philo)
+static void	take_forks(t_philo *philo)
 {
 	if (philo->id == philo->table->number_of_philos)
 	{
 		pthread_mutex_lock(&philo->table->forks[philo->forks[RIGHT]]);
-		log_state(philo, "picked up right fork");
 		pthread_mutex_lock(&philo->table->forks[philo->forks[LEFT]]);
-		log_state(philo, "picked up left fork");
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->table->forks[philo->forks[LEFT]]);
-		log_state(philo, "picked up left fork.");
 		pthread_mutex_lock(&philo->table->forks[philo->forks[RIGHT]]);
-		log_state(philo, "picked up right fork.");
 	}
 }
 
-void static	release_forks(t_philo *philo)
+static void	release_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->table->forks[philo->forks[LEFT]]);
-	// log_state(philo, "dropped left fork");
 	pthread_mutex_unlock(&philo->table->forks[philo->forks[RIGHT]]);
-	// log_state(philo, "dropped right fork");
 }
 
-void static	eat(t_philo *philo)
+static void	eat(t_philo *philo)
 {
 	log_state(philo, "is eating");
 	philo->last_meal_time = get_time_in_ms();
@@ -73,32 +52,14 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (!philo->table->simulation_ended)
+	wait_for_start(philo->table);
+	log_state(philo, "started");
+	while (!has_sim_ended(philo->table))
 	{
-		wait_for_start(philo);
-		log_state(philo, "started");
 		take_forks(philo);
 		eat(philo);
 		release_forks(philo);
 		sleep_and_think(philo);
 	}
-	// while (!has_simulation_ended(philo->table))
-	// {
-	// 	take_forks(philo);
-	// 	eat(philo);
-	// 	release_forks(philo);
-	// 	sleep_and_think(philo);
-	// }
-	// while (420)
-	// {
-	// 	pthread_mutex_lock(&philo->table->start_lock);
-	// 	if (philo->table->start_flag)
-	// 	{
-	// 		pthread_mutex_unlock(&philo->table->start_lock);
-	// 		break ;
-	// 	}
-	// 	pthread_mutex_unlock(&philo->table->start_lock);
-	// 	usleep(100);
-	// }
 	return (NULL);
 }

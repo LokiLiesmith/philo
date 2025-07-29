@@ -15,7 +15,8 @@
 int	create_philos(t_table *table)
 {
 	int		i;
-
+	t_philo	*philo;
+	
 	table->philos = malloc(sizeof(t_philo *) * table->number_of_philos);
 	if (!table->philos)
 		return (1);
@@ -23,7 +24,8 @@ int	create_philos(t_table *table)
 	while ((unsigned int)i < table->number_of_philos)
 	{
 		table->philos[i] = malloc(sizeof(t_philo));
-		if (!table->philos[i])
+		philo = table->philos[i];
+		if (!philo || mutex_init(&philo->count_lock, &philo->count_flag))
 		{
 			free_philos(table, i);
 			return (1);
@@ -51,7 +53,7 @@ int	set_forks(t_table *table)
 	{
 		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
 		{
-			destroy_mutexes(table, i);
+			destroy_forks(table, i);
 			free(table->forks);
 			return (1);
 		}
@@ -74,44 +76,44 @@ int	init_vars(t_table *table, char**av, int ac)
 	return (0);
 }
 
-int	check_lock_inits(t_lock_inits *lock_inits)
-{
-	if (lock_inits->print_lock_init == 0)
-		return (1);
-	if (lock_inits->start_lock_init == 0)
-		return (1);
-	if (lock_inits->sim_end_lock_init == 0)
-		return (1);
-	return (0);
-}
-
-void	destroy_locks(t_table *table)
-{
-	if (table->lock_inits.print_lock_init)
-		pthread_mutex_destroy(&table->print_lock);
-	if (table->lock_inits.start_lock_init)
-		pthread_mutex_destroy(&table->start_lock);
-	if (table->lock_inits.sim_end_lock_init)
-		pthread_mutex_destroy(&table->sim_end_lock);
-}
+// int	check_lock_inits(t_init_flags *init_flags)
+// {
+// 	if (init_flags->print_lock_flag == 0)
+// 		return (1);
+// 	if (init_flags->start_lock_flag == 0)
+// 		return (1);
+// 	if (init_flags->sim_end_lock_flag == 0)
+// 		return (1);
+// 	return (0);
+// }
 
 int	init_locks(t_table *table)
 {
-	if (pthread_mutex_init(&table->start_lock, NULL) == 0)
-		table->lock_inits.start_lock_init = 1;
-	if (pthread_mutex_init(&table->print_lock, NULL) == 0)
-		table->lock_inits.print_lock_init = 1;
-	if (pthread_mutex_init(&table->sim_end_lock, NULL) == 0)
-		table->lock_inits.sim_end_lock_init = 1;
-	if (check_lock_inits(&table->lock_inits))
+	if (mutex_init(&table->start_lock, &table->init_flags.start_lock_flag))
 		return (1);
-	printf("\n\n////// STARTLOCK:%d\n", table->lock_inits.start_lock_init);
-	printf("\n\n////// PRINTLOCK:%d\n", table->lock_inits.print_lock_init);
-	printf("\n\n////// SIMENDLOCK:%d\n", table->lock_inits.sim_end_lock_init);
+	if (mutex_init(&table->print_lock, &table->init_flags.print_lock_flag))
+		return (1);
+	if (mutex_init(&table->sim_end_lock, &table->init_flags.sim_end_lock_flag))
+		return (1);
 	table->simulation_ended = 0;
 	table->start_flag = 0;
 	return (0);
 }
+
+// int	init_locks(t_table *table)
+// {
+// 	if (pthread_mutex_init(&table->start_lock, NULL) == 0)
+// 		table->init_flags.start_lock_flag = 1;
+// 	if (pthread_mutex_init(&table->print_lock, NULL) == 0)
+// 		table->init_flags.print_lock_flag = 1;
+// 	if (pthread_mutex_init(&table->sim_end_lock, NULL) == 0)
+// 		table->init_flags.sim_end_lock_flag = 1;
+// 	if (check_lock_inits(&table->init_flags))
+// 		return (1);
+// 	table->simulation_ended = 0;
+// 	table->start_flag = 0;
+// 	return (0);
+// }
 
 int	init_table(t_table	*table, char **av, int ac)
 {

@@ -49,3 +49,25 @@ void	log_state(t_philo *philo, char *msg)
 	printf("%ld %d %s\n", timestamp, philo->id, msg);
 	pthread_mutex_unlock(&philo->table->print_lock);
 }
+
+int	mutex_init (pthread_mutex_t *mutex, int *flag)
+{
+	if (pthread_mutex_init(mutex, NULL) != 0)
+	{
+		*flag = 0;
+		return (1);
+	}
+	*flag = 1;
+	return (0);
+}
+
+int destroy_mutex (pthread_mutex_t *mutex, int *flag)
+{
+	if (*flag == 1)
+	{
+		pthread_mutex_destroy(mutex);
+		*flag = 0;
+		return (0);
+	}
+	return (1);
+}

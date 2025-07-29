@@ -1,0 +1,21 @@
+Set forks.
+Created Philos.
+Init Complete.
+Monitor created.
+Monitor_flag = 1
+0 1 started
+0 1 is eating
+0 1 is sleeping
+0 2 started
+0 2 is eating
+0 2 is sleeping
+0 3 started
+0 3 is eating
+0 3 is sleeping
+0 4 started
+0 4 is eating
+0 4 is sleeping
+10 1 is thinking
+10 2 is thinking
+10 3 is thinking
+10 4 is thinking

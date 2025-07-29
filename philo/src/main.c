@@ -44,13 +44,13 @@ int	main(int ac, char **av)
 	return (0);
 }
 
-
 int	start_dinner(t_table *table)
 {
 	int		i;
 
 	i = 0;
-	table->start_of_time = get_time_in_ms();
+	// table->start_of_time = get_time_in_ms();
+	//CREATE PHILOTHREADS
 	while (i < (int)table->number_of_philos)
 	{
 		if (pthread_create(&table->philos[i]->thread, NULL, &routine,
@@ -61,6 +61,9 @@ int	start_dinner(t_table *table)
 		}
 		i++;
 	}
+	//CREATE MONITOR
+	if (create_monitor(table))
+		free_table(table);
 	//STARTFLAG SET to GO
 	pthread_mutex_lock(&table->start_lock);
 	table->start_of_time = get_time_in_ms();

@@ -50,12 +50,13 @@ typedef enum e_input_err
 	ERR_LOCKS,
 }	t_input_err;
 
-typedef struct s_lock_inits
+typedef struct s_init_flags
 {
-	int				start_lock_init;
-	int				print_lock_init;
-	int				sim_end_lock_init;
-}	t_lock_inits;
+	int				start_lock_flag;
+	int				print_lock_flag;
+	int				sim_end_lock_flag;
+	int				monitor_flag;
+}	t_init_flags;
 
 typedef struct s_table
 {
@@ -72,7 +73,8 @@ typedef struct s_table
 	pthread_mutex_t	print_lock;
 	int				simulation_ended;
 	pthread_mutex_t	sim_end_lock;
-	t_lock_inits	lock_inits;
+	t_init_flags	init_flags;
+	pthread_t		monitor;
 }	t_table;
 
 typedef struct s_philo
@@ -82,6 +84,8 @@ typedef struct s_philo
 	pthread_t		thread;
 	unsigned int	forks[2];
 	t_table			*table;
+	pthread_mutex_t	count_lock;
+	int				count_flag;
 	long			meal_count;
 }	t_philo;
 
@@ -92,6 +96,8 @@ int		start_dinner(t_table *table);
 long	ft_atol(const char *s);
 long	get_time_in_ms(void);
 void	log_state(t_philo *philo, char *msg);
+int 	destroy_mutex (pthread_mutex_t *mutex, int *flag);
+int		mutex_init (pthread_mutex_t *mutex, int *flag);
 
 // init.c
 int		init_table(t_table	*table, char **av, int ac);
@@ -112,12 +118,23 @@ void	ft_error_msg(char *msg, int err_no);
 //routine.c
 void	*routine(void *arg);
 
+//sync.c
+int		has_sim_ended (t_table *table);
+void	wait_for_start(t_table *table);
+
+
+//monitor.c
+void *monitor_routine(void *arg);
+int	create_monitor(t_table *table);
+
+
 // cleanup.c
 void	free_philos(t_table *table, int count);
-void	destroy_mutexes(t_table *table, int count);
+void	destroy_forks(t_table *table, int count);
 void	free_table(t_table *table);
 void	destroy_locks(t_table *table);
-int		check_lock_inits(t_lock_inits *lock_inits);
+int		check_lock_inits(t_init_flags *init_flags);
+
 
 
 #endif
