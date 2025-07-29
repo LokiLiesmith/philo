@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 23:16:50 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/28 23:59:59 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/29 22:57:45 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ int		start_dinner(t_table *table);
 long	ft_atol(const char *s);
 long	get_time_in_ms(void);
 void	log_state(t_philo *philo, char *msg);
-int 	destroy_mutex (pthread_mutex_t *mutex, int *flag);
-int		mutex_init (pthread_mutex_t *mutex, int *flag);
+int		destroy_mutex(pthread_mutex_t *mutex, int *flag);
+int		mutex_init(pthread_mutex_t *mutex, int *flag);
 
 // init.c
 int		init_table(t_table	*table, char **av, int ac);
@@ -117,15 +117,17 @@ void	ft_error_msg(char *msg, int err_no);
 
 //routine.c
 void	*routine(void *arg);
+int		release_forks(t_philo *philo);
+
 
 //sync.c
-int		has_sim_ended (t_table *table);
+int		has_sim_ended(t_table *table);
 void	wait_for_start(t_table *table);
 
 
 //monitor.c
-void *monitor_routine(void *arg);
-int	create_monitor(t_table *table);
+void	*monitor_routine(void *arg);
+int		create_monitor(t_table *table);
 
 
 // cleanup.c

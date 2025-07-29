@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 20:36:09 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/28 20:45:42 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/29 22:57:33 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	start_dinner(t_table *table)
 	int		i;
 
 	i = 0;
-	// table->start_of_time = get_time_in_ms();
 	//CREATE PHILOTHREADS
 	while (i < (int)table->number_of_philos)
 	{

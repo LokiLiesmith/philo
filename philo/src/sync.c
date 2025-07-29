@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sync.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/29 21:32:42 by mrazem            #+#    #+#             */
+/*   Updated: 2025/07/29 23:14:59 by mrazem           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-int	has_sim_ended (t_table *table)
+int	has_sim_ended(t_table *table)
 {
-	int ended;
+	int	ended;
 
 	pthread_mutex_lock(&table->sim_end_lock);
-	ended =  table->simulation_ended;
+	ended = table->simulation_ended;
 	pthread_mutex_unlock(&table->sim_end_lock);
 	return (ended);
 }
