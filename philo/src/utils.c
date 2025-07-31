@@ -42,13 +42,13 @@ long	get_time_in_ms(void)
 
 void	ft_usleep(long duration)
 {
-	// long	start;
+	long	start;
 
-	// start = get_time_in_ms();
-	// usleep(duration * 200);
+	start = get_time_in_ms();
+	// usleep(duration * 600);
 	// while (get_time_in_ms() - start < duration)
-	while (get_time_in_ms() < duration)
-		usleep(100);
+	while (get_time_in_ms() - start < duration)
+		usleep(500);
 }
 
 void	log_state(t_philo *philo, char *msg)
