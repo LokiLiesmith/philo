@@ -24,19 +24,8 @@ int	main(int ac, char **av)
 		wait_for_threads(&table);
 		// end_routine
 		// //////////////////////////// CHECKS/////////////////////////////////
-
-		// int i = 0;
-		// printf("Philos: %d\n", table.number_of_philos);
-		// while ( i < (int)table.number_of_philos)
-		// {
-		// 	t_philo *philo = table.philos[i];
-		// 	printf("Philo[id]: %d\n", philo->id);
-		// 	printf("Left Fork[id]: %d\n", philo->forks[LEFT]);
-		// 	printf("Right Fork[id]: %d\n", philo->forks[RIGHT]);
-		// 	i++;
-		// }
-		// printf("Start of time: %ld\n", table.start_of_time = get_time_in_ms());
-// 
+		
+		printf("ALL THREADS ARE BACK\n");
 		//////////////////////////////////////////////////////////////////
 	}
 	else
@@ -52,6 +41,19 @@ void	wait_for_threads(t_table *table)
 	while (i < (int)table->number_of_philos)
 	{
 		pthread_join(table->philos[i]->thread, NULL);
+		i++;
+	}
+}
+
+
+static void	init_last_meal_time(t_table *table)
+{
+	int i;
+
+	i = 0;
+	while (i < (int)table->number_of_philos)
+	{
+		table->philos[i]->last_meal_time = table->start_of_time;
 		i++;
 	}
 }
@@ -78,6 +80,7 @@ int	start_dinner(t_table *table)
 	//STARTFLAG SET to GO
 	pthread_mutex_lock(&table->start_lock);
 	table->start_of_time = get_time_in_ms();
+	init_last_meal_time(table);
 	table->start_flag = 1;
 	pthread_mutex_unlock(&table->start_lock);
 	return (0);

@@ -37,7 +37,7 @@ int	create_philos(t_table *table)
 		table->philos[i]->table = table;
 		i++;
 	}
-	printf("Created Philos.\n");
+	// printf("Created Philos.\n");
 	return (0);
 }
 
@@ -59,7 +59,7 @@ int	set_forks(t_table *table)
 		}
 		i++;
 	}
-	printf("Set forks.\n");
+	// printf("Set forks.\n");
 	return (0);
 }
 

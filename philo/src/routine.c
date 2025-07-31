@@ -65,6 +65,7 @@ static int	eat(t_philo *philo)
 	if (!has_sim_ended(philo->table))
 	{
 		log_state(philo, "is eating");
+		usleep(philo->table->time_to_eat * 1000);
 		philo->last_meal_time = get_time_in_ms();
 		if (philo->meal_count < 0)
 			philo->meal_count++;
@@ -91,7 +92,7 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	wait_for_start(philo->table);
-	log_state(philo, "started");
+	// log_state(philo, "started");
 	while (!has_sim_ended(philo->table))
 	{
 		if (take_forks(philo))

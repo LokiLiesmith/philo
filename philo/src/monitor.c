@@ -23,20 +23,47 @@ int	create_monitor(t_table *t)
 	return (0);
 }
 
+static int	philo_death(t_table *t)
+{
+	int i;
+	t_philo *philo;
+	
+	i = 0;
+	while (i < (int)t->number_of_philos)
+	{
+		philo = t->philos[i];
+		if ((get_time_in_ms() - philo->last_meal_time) >= t->time_to_die)
+		{
+			// printf("time diff:%ld\ntime_to_die:%ld\n", (get_time_in_ms() - philo->last_meal_time), t->time_to_die);
+			log_state(philo, "has died");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+static int	sim_end_check(t_table *table)
+{
+	return (philo_death(table));
+}
+
 void	*monitor_routine(void *arg)
 {
 	t_table	*table;
 
 	table = (t_table *) arg;
-	printf("Monitor created.\n");
+	// printf("Monitor created.\n");
 	wait_for_start(table);
 	while (!has_sim_ended(table))
 	{
-		usleep(500000);
-		pthread_mutex_lock(&table->sim_end_lock);
-		table->simulation_ended = 1;
-		pthread_mutex_unlock(&table->sim_end_lock);
-		printf("GAMEOVER\n");
+		if(sim_end_check(table))
+		{
+			pthread_mutex_lock(&table->sim_end_lock);
+			table->simulation_ended = 1;
+			pthread_mutex_unlock(&table->sim_end_lock);
+			printf("GAMEOVER\n");
+		}
 	}
 	return (NULL);
 }
