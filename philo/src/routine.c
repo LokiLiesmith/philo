@@ -70,7 +70,6 @@ static int	eat(t_philo *philo)
 	if (philo->meal_count >= 0)
 		philo->meal_count++;
 	pthread_mutex_unlock(&philo->count_lock);
-
 	log_state(philo, "is eating");
 	ft_usleep(philo->table->time_to_eat);
 	return (0);
@@ -93,6 +92,9 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	wait_for_start(philo->table);
 	// log_state(philo, "started");
+	if (philo->id % 2 == 0)
+		usleep(10);
+		// ft_usleep(philo->table->time_to_eat / 2);
 	while (!has_sim_ended(philo->table))
 	{
 		if (take_forks(philo))

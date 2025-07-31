@@ -35,6 +35,7 @@ int	create_philos(t_table *table)
 		table->philos[i]->forks[RIGHT] = (i + 1) % table->number_of_philos;
 		table->philos[i]->last_meal_time = 0;
 		table->philos[i]->table = table;
+		table->philos[i]->meal_count = 0;
 		i++;
 	}
 	// printf("Created Philos.\n");
@@ -76,17 +77,6 @@ int	init_vars(t_table *table, char**av, int ac)
 	return (0);
 }
 
-// int	check_lock_inits(t_init_flags *init_flags)
-// {
-// 	if (init_flags->print_lock_flag == 0)
-// 		return (1);
-// 	if (init_flags->start_lock_flag == 0)
-// 		return (1);
-// 	if (init_flags->sim_end_lock_flag == 0)
-// 		return (1);
-// 	return (0);
-// }
-
 int	init_locks(t_table *table)
 {
 	if (mutex_init(&table->start_lock, &table->init_flags.start_lock_flag))
@@ -99,21 +89,6 @@ int	init_locks(t_table *table)
 	table->start_flag = 0;
 	return (0);
 }
-
-// int	init_locks(t_table *table)
-// {
-// 	if (pthread_mutex_init(&table->start_lock, NULL) == 0)
-// 		table->init_flags.start_lock_flag = 1;
-// 	if (pthread_mutex_init(&table->print_lock, NULL) == 0)
-// 		table->init_flags.print_lock_flag = 1;
-// 	if (pthread_mutex_init(&table->sim_end_lock, NULL) == 0)
-// 		table->init_flags.sim_end_lock_flag = 1;
-// 	if (check_lock_inits(&table->init_flags))
-// 		return (1);
-// 	table->simulation_ended = 0;
-// 	table->start_flag = 0;
-// 	return (0);
-// }
 
 int	init_table(t_table	*table, char **av, int ac)
 {
