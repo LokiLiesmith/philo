@@ -40,6 +40,17 @@ long	get_time_in_ms(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
+void	ft_usleep(long duration)
+{
+	// long	start;
+
+	// start = get_time_in_ms();
+	// usleep(duration * 200);
+	// while (get_time_in_ms() - start < duration)
+	while (get_time_in_ms() < duration)
+		usleep(100);
+}
+
 void	log_state(t_philo *philo, char *msg)
 {
 	long	timestamp;

@@ -42,16 +42,6 @@ void	destroy_forks(t_table *table, int count)
 	}
 }
 
-// void	destroy_locks(t_table *table)
-// {
-// 	if (table->init_flags.print_lock_flag)
-// 		pthread_mutex_destroy(&table->print_lock);
-// 	if (table->init_flags.start_lock_flag)
-// 		pthread_mutex_destroy(&table->start_lock);
-// 	if (table->init_flags.sim_end_lock_flag)
-// 		pthread_mutex_destroy(&table->sim_end_lock);
-// }
-
 void	destroy_locks(t_table *table)
 {
 	destroy_mutex(&table->start_lock, &table->init_flags.start_lock_flag);

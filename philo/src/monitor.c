@@ -34,7 +34,6 @@ static int	philo_death(t_table *t)
 		philo = t->philos[i];
 		if ((get_time_in_ms() - philo->last_meal_time) >= t->time_to_die)
 		{
-			// printf("time diff:%ld\ntime_to_die:%ld\n", (get_time_in_ms() - philo->last_meal_time), t->time_to_die);
 			log_state(philo, "has died");
 			return (1);
 		}
@@ -43,9 +42,32 @@ static int	philo_death(t_table *t)
 	return (0);
 }
 
+static int	all_full(t_table *table)
+{
+	int	i;
+
+	if (table->must_eats == -1)
+		return (0);
+	i = 0;
+	while(i < (int)table->number_of_philos)
+		{
+			pthread_mutex_lock(&table->philos[i]->count_lock);
+			if (table->philos[i]->meal_count < table->must_eats)
+			{
+				pthread_mutex_unlock(&table->philos[i]->count_lock);
+				return (0);
+			}
+			pthread_mutex_unlock(&table->philos[i]->count_lock);
+			i++;
+		}
+	printf("ALL FULL\n");
+	return (1); 
+}
+
+			
 static int	sim_end_check(t_table *table)
 {
-	return (philo_death(table));
+	return (philo_death(table) || all_full(table));
 }
 
 void	*monitor_routine(void *arg)
@@ -64,6 +86,7 @@ void	*monitor_routine(void *arg)
 			pthread_mutex_unlock(&table->sim_end_lock);
 			printf("GAMEOVER\n");
 		}
+		usleep(100);
 	}
 	return (NULL);
 }

@@ -65,7 +65,7 @@ typedef struct s_table
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
-	unsigned int	must_eats;
+	int				must_eats;
 	pthread_mutex_t	*forks;
 	struct s_philo	**philos;
 	pthread_mutex_t	start_lock;
@@ -98,6 +98,8 @@ long	get_time_in_ms(void);
 void	log_state(t_philo *philo, char *msg);
 int		destroy_mutex(pthread_mutex_t *mutex, int *flag);
 int		mutex_init(pthread_mutex_t *mutex, int *flag);
+void	ft_usleep(long duration);
+
 
 // init.c
 int		init_table(t_table	*table, char **av, int ac);

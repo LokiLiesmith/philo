@@ -62,28 +62,28 @@ int	release_forks(t_philo *philo)
 
 static int	eat(t_philo *philo)
 {
-	if (!has_sim_ended(philo->table))
-	{
-		log_state(philo, "is eating");
-		usleep(philo->table->time_to_eat * 1000);
-		philo->last_meal_time = get_time_in_ms();
-		if (philo->meal_count < 0)
-			philo->meal_count++;
-		return (0);
-	}
-	return (1);
+	if (has_sim_ended(philo->table))
+		return (1);
+
+	pthread_mutex_lock(&philo->count_lock);
+	philo->last_meal_time = get_time_in_ms();
+	if (philo->meal_count >= 0)
+		philo->meal_count++;
+	pthread_mutex_unlock(&philo->count_lock);
+
+	log_state(philo, "is eating");
+	ft_usleep(philo->table->time_to_eat);
+	return (0);
 }
 
 int	sleep_and_think(t_philo *philo)
 {
-	if (!has_sim_ended(philo->table))
-	{
-		log_state(philo, "is sleeping");
-		usleep(philo->table->time_to_sleep * 1000);
-		log_state(philo, "is thinking");
-		return (0);
-	}
-	return (1);
+	if (has_sim_ended(philo->table))
+		return (1);
+	log_state(philo, "is sleeping");
+	ft_usleep(philo->table->time_to_sleep);
+	log_state(philo, "is thinking");
+	return (0);
 }
 
 void	*routine(void *arg)
