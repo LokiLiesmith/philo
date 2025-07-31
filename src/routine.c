@@ -6,13 +6,13 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 20:44:33 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/29 23:19:18 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:01:43 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	safe_lock(pthread_mutex_t *mutex, t_table *table)
+int	safe_lock(pthread_mutex_t *mutex, t_table *table, t_philo *p)
 {
 	if (has_sim_ended(table))
 		return (1);
@@ -23,6 +23,7 @@ int	safe_lock(pthread_mutex_t *mutex, t_table *table)
 		pthread_mutex_unlock(mutex);
 		return (1);
 	}
+	log_state(p, "has taken a fork.");
 	return (0);
 }
 
@@ -30,9 +31,9 @@ static int	take_forks(t_philo *p)
 {
 	if (p->id == p->table->number_of_philos)
 	{
-		if (safe_lock(&p->table->forks[p->forks[RIGHT]], p->table))
+		if (safe_lock(&p->table->forks[p->forks[RIGHT]], p->table, p) != 0)
 			return (1);
-		if (safe_lock(&p->table->forks[p->forks[LEFT]], p->table) != 0)
+		if (safe_lock(&p->table->forks[p->forks[LEFT]], p->table, p) != 0)
 		{
 			pthread_mutex_unlock(&p->table->forks[p->forks[RIGHT]]);
 			return (1);
@@ -40,9 +41,9 @@ static int	take_forks(t_philo *p)
 	}
 	else
 	{
-		if (safe_lock(&p->table->forks[p->forks[LEFT]], p->table) != 0)
+		if (safe_lock(&p->table->forks[p->forks[LEFT]], p->table, p) != 0)
 			return (1);
-		if (safe_lock(&p->table->forks[p->forks[RIGHT]], p->table) != 0)
+		if (safe_lock(&p->table->forks[p->forks[RIGHT]], p->table, p) != 0)
 		{
 			pthread_mutex_unlock(&p->table->forks[p->forks[LEFT]]);
 			return (1);
@@ -91,7 +92,6 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	wait_for_start(philo->table);
-	// log_state(philo, "started");
 	if (philo->id % 2 == 0)
 		ft_usleep(philo->table->time_to_eat / 2);
 	while (!has_sim_ended(philo->table))

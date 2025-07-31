@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 23:08:46 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/29 22:57:40 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:24:55 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	free_philos(t_table *table, int count)
 {
-	int	i;
-	t_philo *philo;
+	int		i;
+	t_philo	*philo;
 
 	i = 0;
 	while (i < count)
@@ -66,3 +66,4 @@ void	free_table(t_table *table)
 		table->philos = NULL;
 	}
 }
+

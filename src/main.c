@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 20:36:09 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/30 00:00:11 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:25:04 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,7 @@ int	main(int ac, char **av)
 		init_table(&table, av, ac);
 		start_dinner(&table);
 		wait_for_threads(&table);
-		// end_routine
-		// //////////////////////////// CHECKS/////////////////////////////////
-		
-		printf("ALL THREADS ARE BACK\n");
-		//////////////////////////////////////////////////////////////////
+		free_table(&table);
 	}
 	else
 		ft_error_msg(STR_USAGE, ERR_USAGE);
@@ -48,7 +44,7 @@ void	wait_for_threads(t_table *table)
 
 static void	init_last_meal_time(t_table *table)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < (int)table->number_of_philos)
@@ -63,7 +59,6 @@ int	start_dinner(t_table *table)
 	int		i;
 
 	i = 0;
-	//CREATE PHILOTHREADS
 	while (i < (int)table->number_of_philos)
 	{
 		if (pthread_create(&table->philos[i]->thread, NULL, &routine,
@@ -74,10 +69,8 @@ int	start_dinner(t_table *table)
 		}
 		i++;
 	}
-	//CREATE MONITOR
 	if (create_monitor(table))
 		free_table(table);
-	//STARTFLAG SET to GO
 	pthread_mutex_lock(&table->start_lock);
 	table->start_of_time = get_time_in_ms();
 	init_last_meal_time(table);

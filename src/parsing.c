@@ -6,11 +6,9 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 09:55:44 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/26 20:10:11 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:25:20 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
 
 #include <philo.h>
 

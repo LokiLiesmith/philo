@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 19:30:34 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/29 22:57:42 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:25:01 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	create_philos(t_table *table)
 {
 	int		i;
 	t_philo	*philo;
-	
+
 	table->philos = malloc(sizeof(t_philo *) * table->number_of_philos);
 	if (!table->philos)
 		return (1);
@@ -38,7 +38,6 @@ int	create_philos(t_table *table)
 		table->philos[i]->meal_count = 0;
 		i++;
 	}
-	// printf("Created Philos.\n");
 	return (0);
 }
 
@@ -60,7 +59,6 @@ int	set_forks(t_table *table)
 		}
 		i++;
 	}
-	// printf("Set forks.\n");
 	return (0);
 }
 
@@ -95,7 +93,7 @@ int	init_table(t_table	*table, char **av, int ac)
 	init_vars(table, av, ac);
 	if (init_locks(table))
 	{
-		free_table(table);	
+		free_table(table);
 		ft_error_msg("Locks failed", ERR_LOCKS);
 	}
 	if (set_forks(table))
@@ -108,6 +106,5 @@ int	init_table(t_table	*table, char **av, int ac)
 		free_table(table);
 		ft_error_msg("Failed at creating philos.", ERR_PHILOS_CREATION);
 	}
-	printf("Init Complete.\n");
 	return (0);
 }

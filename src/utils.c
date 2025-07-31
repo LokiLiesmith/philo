@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 21:42:30 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/29 23:18:30 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/07/31 17:25:55 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void	ft_usleep(long duration)
 	long	start;
 
 	start = get_time_in_ms();
-	// usleep(duration * 600);
-	// while (get_time_in_ms() - start < duration)
 	while (get_time_in_ms() - start < duration)
 		usleep(100);
 }
