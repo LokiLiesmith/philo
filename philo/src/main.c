@@ -43,8 +43,8 @@ void	wait_for_threads(t_table *table)
 		pthread_join(table->philos[i]->thread, NULL);
 		i++;
 	}
+	pthread_join(table->monitor, NULL);
 }
-
 
 static void	init_last_meal_time(t_table *table)
 {

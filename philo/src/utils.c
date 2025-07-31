@@ -48,7 +48,7 @@ void	ft_usleep(long duration)
 	// usleep(duration * 600);
 	// while (get_time_in_ms() - start < duration)
 	while (get_time_in_ms() - start < duration)
-		usleep(500);
+		usleep(100);
 }
 
 void	log_state(t_philo *philo, char *msg)

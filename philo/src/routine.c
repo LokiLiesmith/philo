@@ -93,8 +93,7 @@ void	*routine(void *arg)
 	wait_for_start(philo->table);
 	// log_state(philo, "started");
 	if (philo->id % 2 == 0)
-		usleep(10);
-		// ft_usleep(philo->table->time_to_eat / 2);
+		ft_usleep(philo->table->time_to_eat / 2);
 	while (!has_sim_ended(philo->table))
 	{
 		if (take_forks(philo))

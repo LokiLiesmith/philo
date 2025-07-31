@@ -32,11 +32,14 @@ static int	philo_death(t_table *t)
 	while (i < (int)t->number_of_philos)
 	{
 		philo = t->philos[i];
-		if ((get_time_in_ms() - philo->last_meal_time) >= t->time_to_die)
+		pthread_mutex_lock(&philo->count_lock);
+		if ((get_time_in_ms() - philo->last_meal_time) > t->time_to_die)
 		{
+			pthread_mutex_unlock(&philo->count_lock);
 			log_state(philo, "has died");
 			return (1);
 		}
+		pthread_mutex_unlock(&philo->count_lock);
 		i++;
 	}
 	return (0);
