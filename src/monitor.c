@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 21:35:39 by mrazem            #+#    #+#             */
-/*   Updated: 2025/08/01 15:33:02 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/08/01 16:10:00 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,24 @@ int	sim_end_check(t_table *table)
 int	philo_death(t_table *t)
 {
 	int		i;
-	t_philo	*philo;
+	t_philo	*p;
 
 	i = 0;
 	while (i < (int)t->number_of_philos)
 	{
-		philo = t->philos[i];
-		pthread_mutex_lock(&philo->count_lock);
-		if ((get_time_in_ms() - philo->last_meal_time) > t->time_to_die)
+		p = t->philos[i];
+		pthread_mutex_lock(&p->count_lock);
+		if (!(t->must_eats != -1 && p->meal_count >= t->must_eats)
+			&& (get_time_in_ms() - p->last_meal_time) > t->time_to_die)
 		{
-			pthread_mutex_unlock(&philo->count_lock);
-			log_state(philo, "has died");
+			pthread_mutex_unlock(&p->count_lock);
+			log_state(p, "has died");
 			pthread_mutex_lock(&t->sim_end_lock);
-			if (!t->simulation_ended)
-				t->simulation_ended = 1;
+			t->simulation_ended = 1;
 			pthread_mutex_unlock(&t->sim_end_lock);
 			return (1);
 		}
-		pthread_mutex_unlock(&philo->count_lock);
+		pthread_mutex_unlock(&p->count_lock);
 		i++;
 	}
 	return (0);
