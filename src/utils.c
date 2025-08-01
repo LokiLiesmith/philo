@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 21:42:30 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/31 17:25:55 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/08/01 14:36:26 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,6 @@ void	log_state(t_philo *philo, char *msg)
 	timestamp = get_time_in_ms() - philo->table->start_of_time;
 	printf("%ld %d %s\n", timestamp, philo->id, msg);
 	pthread_mutex_unlock(&philo->table->print_lock);
-}
-
-int	mutex_init(pthread_mutex_t *mutex, int *flag)
-{
-	if (pthread_mutex_init(mutex, NULL) != 0)
-	{
-		*flag = 0;
-		return (1);
-	}
-	*flag = 1;
-	return (0);
 }
 
 int	destroy_mutex(pthread_mutex_t *mutex, int *flag)

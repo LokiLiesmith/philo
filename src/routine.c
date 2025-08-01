@@ -6,28 +6,42 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 20:44:33 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/31 17:01:43 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/08/01 15:07:16 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	safe_lock(pthread_mutex_t *mutex, t_table *table, t_philo *p)
+void	*routine(void *arg)
 {
-	if (has_sim_ended(table))
-		return (1);
-	if (pthread_mutex_lock(mutex) != 0)
-		return (1);
-	if (has_sim_ended(table))
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	wait_for_start(philo->table);
+	if (philo->table->number_of_philos == 1)
 	{
-		pthread_mutex_unlock(mutex);
-		return (1);
+		if (dinner_for_1(philo))
+			return (NULL);
 	}
-	log_state(p, "has taken a fork.");
-	return (0);
+	if (philo->id % 2 == 0)
+		ft_usleep(philo->table->time_to_eat / 2);
+	while (!has_sim_ended(philo->table))
+	{
+		if (overeat_check(philo))
+			break ;
+		if (take_forks(philo))
+			return (NULL);
+		if (eat(philo))
+			return (NULL);
+		if (release_forks(philo))
+			return (NULL);
+		if (sleep_and_think(philo))
+			return (NULL);
+	}
+	return (NULL);
 }
 
-static int	take_forks(t_philo *p)
+int	take_forks(t_philo *p)
 {
 	if (p->id == p->table->number_of_philos)
 	{
@@ -61,11 +75,10 @@ int	release_forks(t_philo *philo)
 	return (0);
 }
 
-static int	eat(t_philo *philo)
+int	eat(t_philo *philo)
 {
 	if (has_sim_ended(philo->table))
 		return (1);
-
 	pthread_mutex_lock(&philo->count_lock);
 	philo->last_meal_time = get_time_in_ms();
 	if (philo->meal_count >= 0)
@@ -84,26 +97,4 @@ int	sleep_and_think(t_philo *philo)
 	ft_usleep(philo->table->time_to_sleep);
 	log_state(philo, "is thinking");
 	return (0);
-}
-
-void	*routine(void *arg)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)arg;
-	wait_for_start(philo->table);
-	if (philo->id % 2 == 0)
-		ft_usleep(philo->table->time_to_eat / 2);
-	while (!has_sim_ended(philo->table))
-	{
-		if (take_forks(philo))
-			return (NULL);
-		if (eat(philo))
-			return (NULL);
-		if (release_forks(philo))
-			return (NULL);
-		if (sleep_and_think(philo))
-			return (NULL);
-	}
-	return (NULL);
 }

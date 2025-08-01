@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 23:16:50 by mrazem            #+#    #+#             */
-/*   Updated: 2025/07/29 23:58:55 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/08/01 15:35:36 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <pthread.h>
+# include <string.h>
 
 # define STR_USAGE "Invalid Input\n\
 Correct usage: ./philo <number_of_philosophers> <time_to_die> <time_to_eat> \
@@ -89,58 +90,66 @@ typedef struct s_philo
 	long			meal_count;
 }	t_philo;
 
-
+//main.c
 int		start_dinner(t_table *table);
+void	join_threads(t_table *table);
 
 ///  utils.c
 long	ft_atol(const char *s);
 long	get_time_in_ms(void);
 void	log_state(t_philo *philo, char *msg);
 int		destroy_mutex(pthread_mutex_t *mutex, int *flag);
-int		mutex_init(pthread_mutex_t *mutex, int *flag);
 void	ft_usleep(long duration);
-
 
 // init.c
 int		init_table(t_table	*table, char **av, int ac);
 int		init_vars(t_table *table, char**av, int ac);
-int		set_forks(t_table *table);
-int		create_philos(t_table *table);
+int		init_locks(t_table *table);
+int		init_forks(t_table *table);
+int		init_philos(t_table *table);
+
+//init_2.c
+void	init_last_meal_time(t_table *table);
+int		init_mutex(pthread_mutex_t *mutex, int *flag);
+int		create_threads(t_table *table);
 
 ///  parsing.c ///
-int		is_valid_int_string(char *s);
-int		is_in_int_range(char *s);
-int		is_valid_int(char *s);
 int		ft_validate_input(char **av, int ac);
+int		is_valid_int(char *s);
+int		is_in_int_range(char *s);
+int		is_valid_int_string(char *s);
 
 // errors.c
-// char	*ft_input_error(t_input_err err);
-void	ft_error_msg(char *msg, int err_no);
+void	ft_exit_error(char *msg, int err, t_table *table);
+void	ft_input_error(char *msg, int err);
 
 //routine.c
 void	*routine(void *arg);
+int		take_forks(t_philo *p);
 int		release_forks(t_philo *philo);
+int		eat(t_philo *philo);
+int		sleep_and_think(t_philo *philo);
 
+//routine_2.c
+int		dinner_for_1(t_philo *philo);
+int		safe_lock(pthread_mutex_t *mutex, t_table *table, t_philo *p);
+int		overeat_check(t_philo *p);
 
 //sync.c
-int		has_sim_ended(t_table *table);
 void	wait_for_start(t_table *table);
-void	wait_for_threads(t_table *table);
-
-
+int		has_sim_ended(t_table *table);
 
 //monitor.c
 void	*monitor_routine(void *arg);
 int		create_monitor(t_table *table);
-
+int		sim_end_check(t_table *table);
+int		philo_death(t_table *t);
+int		all_full(t_table *table);
 
 // cleanup.c
-void	free_philos(t_table *table, int count);
-void	destroy_forks(t_table *table, int count);
 void	free_table(t_table *table);
 void	destroy_locks(t_table *table);
-int		check_lock_inits(t_init_flags *init_flags);
-
-
+void	destroy_forks(t_table *table, int count);
+void	free_philos(t_table *table, int count);
 
 #endif

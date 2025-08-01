@@ -1,10 +1,10 @@
 # Compiler + flags
 CC      := cc
-CFLAGS  := -Wall -Wextra -Werror -I include 
+CFLAGS  := -Wall -Wextra -Werror -pthread -I include 
 
 # Source & objects
 SRC := src/main.c src/utils.c src/parsing.c src/errors.c src/cleanup.c\
-src/init.c src/routine.c src/sync.c src/monitor.c
+src/init.c src/routine.c src/sync.c src/monitor.c src/init_2.c src/routine_2.c
 NAME  := philo
 OBJDIR  := obj
 OBJ := $(SRC:src/%.c=$(OBJDIR)/%.o)
