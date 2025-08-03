@@ -16,6 +16,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) \
 	      -o $(NAME)
+# qInterceptor.o
 
 # Compile .c → .o
 $(OBJDIR)/%.o: src/%.c | $(OBJDIR)

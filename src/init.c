@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 19:30:34 by mrazem            #+#    #+#             */
-/*   Updated: 2025/08/01 15:24:11 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/08/03 16:04:25 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,12 @@ int	init_philos(t_table *table)
 			free_philos(table, i);
 			return (1);
 		}
-		table->philos[i]->id = i + 1;
-		table->philos[i]->forks[LEFT] = i;
-		table->philos[i]->forks[RIGHT] = (i + 1) % table->number_of_philos;
-		table->philos[i]->last_meal_time = 0;
-		table->philos[i]->table = table;
-		table->philos[i]->meal_count = 0;
+		philo->id = i + 1;
+		philo->forks[LEFT] = i;
+		philo->forks[RIGHT] = (i + 1) % table->number_of_philos;
+		philo->last_meal_time = 0;
+		philo->table = table;
+		philo->meal_count = 0;
 		i++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 21:42:30 by mrazem            #+#    #+#             */
-/*   Updated: 2025/08/01 14:36:26 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/08/03 20:38:54 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,38 @@ void	ft_usleep(long duration)
 		usleep(100);
 }
 
+// void	log_state(t_philo *philo, char *msg)
+// {
+// 	long	timestamp;
+
+// 	pthread_mutex_lock(&philo->table->print_lock);
+// 	if (has_sim_ended(philo->table))
+// 	{
+// 		pthread_mutex_unlock(&philo->table->print_lock);
+// 		return ;
+// 	}
+// 	timestamp = get_time_in_ms() - philo->table->start_of_time;
+// 	printf("%ld %d %s\n", timestamp, philo->id, msg);
+// 	pthread_mutex_unlock(&philo->table->print_lock);
+// }
+
+static int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s2 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
+}
+
+
 void	log_state(t_philo *philo, char *msg)
 {
 	long	timestamp;
 
 	pthread_mutex_lock(&philo->table->print_lock);
-	if (has_sim_ended(philo->table))
+	if (has_sim_ended(philo->table) && ft_strcmp(msg, "has died") != 0)
 	{
 		pthread_mutex_unlock(&philo->table->print_lock);
 		return ;

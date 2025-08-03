@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:04:10 by mrazem            #+#    #+#             */
-/*   Updated: 2025/08/01 15:07:08 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/08/03 20:18:54 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	safe_lock(pthread_mutex_t *mutex, t_table *table, t_philo *p)
 		pthread_mutex_unlock(mutex);
 		return (1);
 	}
-	log_state(p, "has taken a fork.");
+	log_state(p, "has taken a fork");
 	return (0);
 }
 

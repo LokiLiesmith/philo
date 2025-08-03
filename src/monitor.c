@@ -6,7 +6,7 @@
 /*   By: mrazem <mrazem@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 21:35:39 by mrazem            #+#    #+#             */
-/*   Updated: 2025/08/01 16:10:00 by mrazem           ###   ########.fr       */
+/*   Updated: 2025/08/03 20:32:09 by mrazem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*monitor_routine(void *arg)
 			table->simulation_ended = 1;
 			pthread_mutex_unlock(&table->sim_end_lock);
 		}
-		usleep(100);
+		usleep(50);
 	}
 	return (NULL);
 }
@@ -61,10 +61,10 @@ int	philo_death(t_table *t)
 			&& (get_time_in_ms() - p->last_meal_time) > t->time_to_die)
 		{
 			pthread_mutex_unlock(&p->count_lock);
-			log_state(p, "has died");
 			pthread_mutex_lock(&t->sim_end_lock);
 			t->simulation_ended = 1;
 			pthread_mutex_unlock(&t->sim_end_lock);
+			log_state(p, "has died");
 			return (1);
 		}
 		pthread_mutex_unlock(&p->count_lock);
